@@ -12,6 +12,8 @@ using DesafioCursos.Repository.Interfaces;
 using DesafioCursos.Enum;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+using DesafioCursos.DTO;
+using AutoMapper;
 
 namespace DesafioCursos.Controllers
 {
@@ -21,7 +23,6 @@ namespace DesafioCursos.Controllers
     public class CursosController : ControllerBase
     {
         private readonly CursosContext _context;
-
         private readonly ICursoRepository _repository;
 
         public CursosController(CursosContext context, ICursoRepository repository)
@@ -56,13 +57,14 @@ namespace DesafioCursos.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = "Gerente, Secretario")]
         [HttpPost]
-        public async Task<ActionResult<CursosModel>> PostCursosModel(CursosModel cursosModel, StatusEnum status)
+        public async Task<ActionResult<CursosModel>> PostCursosModel(CursosModel cursos, StatusEnum status)
         {
-            cursosModel.Status = status;
-            await _context.CursosModel.AddAsync(cursosModel);
+            cursos.Status = status;
+
+            await _context.CursosModel.AddAsync(cursos);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCursosModel", new { id = cursosModel.Id }, cursosModel);
+            return CreatedAtAction("GetCursosModel", new { id = cursos.Id }, cursos);
         }
 
         [Authorize(Roles = "Gerente, Secretario")]
@@ -102,36 +104,5 @@ namespace DesafioCursos.Controllers
         {
             return _context.CursosModel.Any(e => e.Id == id);
         }
-
-        // PUT: api/Cursos/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutCursosModel(int id, CursosModel cursosModel)
-        //{
-        //    if (id != cursosModel.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(cursosModel).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CursosModelExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
     }
 }

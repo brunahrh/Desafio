@@ -8,7 +8,6 @@ namespace DesafioCursos.Enum
     public enum UsuarioEnum
     {
         Gerente,
-        Secretario,
-        Usuario
+        Secretario
     }
 }

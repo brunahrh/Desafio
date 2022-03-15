@@ -1,4 +1,6 @@
+using AutoMapper;
 using DesafioCursos.Data;
+using DesafioCursos.Mapping;
 using DesafioCursos.Repository;
 using DesafioCursos.Repository.Interfaces;
 using DesafioCursos.Settings;
@@ -61,8 +63,15 @@ namespace DesafioCursos
                         RoleClaimType = ClaimTypes.Role 
                     };
                 });
+            //var mappingConfig = new MapperConfiguration(mc =>
+            //{
+            //    mc.AddProfile(new MappingProfile());
+            //});
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //IMapper mapper = mappingConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<CursosContext>(options =>
             {
